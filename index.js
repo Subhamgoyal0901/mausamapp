@@ -36,17 +36,20 @@ app.post("/",function(req,res){
         response.on("data",function(data){
             const weatherData =JSON.parse(data);
 
-
+            console.log(weatherData)
             if(weatherData.main==null)
                 return res.render('error')
             
             const temp=weatherData.main.temp;
+            const humidity  = weatherData.main.humidity
+            const windSpeed = weatherData.wind.speed
+            const name = weatherData.name;
             const weatherDescription=weatherData.weather[0].description
             const icon =weatherData.weather[0].icon
             const imageUrl="https://openweathermap.org/img/wn/"+icon+"@2x.png"
 
 
-            return res.render('home',{'temp':temp,'desc':weatherDescription})
+            return res.render('home',{'temp':temp,'desc':weatherDescription,'imgUrl':imageUrl,'location':name,'humidity':humidity,'windSpeed':windSpeed})
             res.write("<p>the current temperature of the " + query + "is" + temp + " </p>")
             res.write("<p>the weather description is"+weatherDescription+"</p>")
             res.write("<img src="+imageUrl+">")
